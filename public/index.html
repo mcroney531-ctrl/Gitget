@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>QuickGit</title>
+  <meta name="description" content="Live GitHub Pages URLs across your repos">
+  <meta name="theme-color" content="#0d1117">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icon.svg">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <h1><span class="logo">⚡</span> QuickGit</h1>
+    <button id="sync-btn" title="Sync from GitHub">Sync</button>
+  </header>
+
+  <div class="toolbar">
+    <input id="search" type="search" placeholder="Search repos…" autocomplete="off">
+    <button id="add-toggle" title="Add repo">+</button>
+  </div>
+
+  <form id="add-form" class="hidden" autocomplete="off">
+    <input id="add-name" placeholder="repo name" required>
+    <input id="add-url" type="url" placeholder="https://you.github.io/repo/" required>
+    <button type="submit">Add</button>
+  </form>
+
+  <main id="list" aria-live="polite"></main>
+
+  <div id="empty" class="empty hidden">
+    <p>No repos yet.</p>
+    <p class="hint">Hit <strong>Sync</strong> to pull everything with GitHub Pages enabled, or add one manually with <strong>+</strong>.</p>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <dialog id="key-dialog">
+    <form method="dialog" id="key-form">
+      <h2>API key</h2>
+      <p>Enter your QuickGit API key. It's stored only on this device.</p>
+      <input id="key-input" type="password" placeholder="API key" required>
+      <button type="submit">Save</button>
+    </form>
+  </dialog>
+
+  <script src="/app.js"></script>
+</body>
+</html>
