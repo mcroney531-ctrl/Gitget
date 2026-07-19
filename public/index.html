@@ -3,35 +3,43 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>QuickGit</title>
-  <meta name="description" content="Live GitHub Pages URLs across your repos">
-  <meta name="theme-color" content="#0d1117">
+  <title>GitGet</title>
+  <meta name="description" content="Get it. Link it. Move on. — live GitHub Pages URLs across your repos">
+  <meta name="theme-color" content="#f6f3fd">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="GitGet">
   <link rel="manifest" href="/manifest.webmanifest">
-  <link rel="icon" href="/icon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="/icon.svg">
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="/icon-192.png" sizes="192x192" type="image/png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <header>
-    <h1><span class="logo">⚡</span> QuickGit</h1>
+  <header class="banner">
+    <img class="mark" src="/logo-mark.png" alt="" width="240" height="190">
+    <div class="brand">
+      <div class="wordmark"><span class="git">Git</span><span class="get">Get</span></div>
+      <div class="tagline">Get it · Link it · Move on</div>
+    </div>
     <button id="sync-btn" title="Sync from GitHub">Sync</button>
   </header>
 
   <div class="toolbar">
     <input id="search" type="search" placeholder="Search repos…" autocomplete="off">
-    <button id="add-toggle" title="Add repo">+</button>
+    <button id="add-toggle" title="Add repo" aria-label="Add repo">+</button>
   </div>
 
   <form id="add-form" class="hidden" autocomplete="off">
     <input id="add-name" placeholder="repo name" required>
     <input id="add-url" type="url" placeholder="https://you.github.io/repo/" required>
-    <button type="submit">Add</button>
+    <button type="submit">Add repo</button>
   </form>
 
   <main id="list" aria-live="polite"></main>
 
   <div id="empty" class="empty hidden">
-    <p>No repos yet.</p>
+    <p class="empty-title">No repos yet.</p>
     <p class="hint">Hit <strong>Sync</strong> to pull everything with GitHub Pages enabled, or add one manually with <strong>+</strong>.</p>
   </div>
 
@@ -40,7 +48,7 @@
   <dialog id="key-dialog">
     <form method="dialog" id="key-form">
       <h2>API key</h2>
-      <p>Enter your QuickGit API key. It's stored only on this device.</p>
+      <p>Enter your GitGet API key. It's stored only on this device.</p>
       <input id="key-input" type="password" placeholder="API key" required>
       <button type="submit">Save</button>
     </form>

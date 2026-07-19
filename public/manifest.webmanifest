@@ -1,22 +1,28 @@
 {
-  "name": "QuickGit",
-  "short_name": "QuickGit",
-  "description": "Live GitHub Pages URLs across your repos",
+  "name": "GitGet",
+  "short_name": "GitGet",
+  "description": "Get it. Link it. Move on. — live GitHub Pages URLs across your repos",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0d1117",
-  "theme_color": "#0d1117",
+  "background_color": "#f6f3fd",
+  "theme_color": "#f6f3fd",
   "icons": [
     {
-      "src": "/icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/icon-maskable.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
       "purpose": "maskable"
     }
   ]

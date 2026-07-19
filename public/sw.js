@@ -1,12 +1,16 @@
-const CACHE = "quickgit-v1";
+const CACHE = "gitget-v2";
 const SHELL = [
   "/",
   "/index.html",
   "/styles.css",
   "/app.js",
   "/manifest.webmanifest",
-  "/icon.svg",
-  "/icon-maskable.svg",
+  "/logo-mark.png",
+  "/icon-192.png",
+  "/icon-512.png",
+  "/icon-maskable.png",
+  "/apple-touch-icon.png",
+  "/favicon-32.png",
 ];
 
 self.addEventListener("install", (e) => {

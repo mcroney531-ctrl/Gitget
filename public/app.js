@@ -106,7 +106,7 @@ function render() {
     del.title = "Remove";
     del.addEventListener("click", async (e) => {
       e.stopPropagation();
-      if (!confirm(`Remove ${r.name} from QuickGit?`)) return;
+      if (!confirm(`Remove ${r.name} from GitGet?`)) return;
       try {
         await api(`/repos/${r.id}`, { method: "DELETE" });
         repos = repos.filter((x) => x.id !== r.id);
