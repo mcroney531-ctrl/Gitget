@@ -1,10 +1,12 @@
-const CACHE = "gitget-v2";
+const CACHE = "gitget-v3";
 const SHELL = [
   "/",
   "/index.html",
   "/styles.css",
   "/app.js",
   "/manifest.webmanifest",
+  "/fonts/radio-canada-latin.woff2",
+  "/fonts/radio-canada-latin-ext.woff2",
   "/logo-mark.png",
   "/icon-192.png",
   "/icon-512.png",
