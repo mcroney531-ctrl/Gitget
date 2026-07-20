@@ -107,11 +107,16 @@ function render() {
     name.textContent = r.name;
     const meta = document.createElement("div");
     meta.className = "meta";
-    const deploy = relTime(r.last_deploy);
-    meta.textContent = [r.owner, deploy && `deployed ${deploy}`, r.source]
-      .filter(Boolean)
-      .join(" · ");
+    meta.textContent = [r.owner, r.source].filter(Boolean).join(" · ");
     info.append(name, meta);
+
+    const deploy = relTime(r.last_deploy);
+    if (deploy) {
+      const dep = document.createElement("div");
+      dep.className = "deploy";
+      dep.textContent = `deployed ${deploy}`;
+      info.append(dep);
+    }
 
     const [cls, label] = badge(r.build_status);
     const b = document.createElement("span");

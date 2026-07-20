@@ -19,7 +19,7 @@
 * { box-sizing: border-box; margin: 0; }
 
 :root {
-  --ink: #211c3a;          /* deep navy — primary text / "Git" */
+  --ink: #463559;          /* dark muted purple — primary text / "Git" */
   --ink-soft: #3a3357;
   --muted: #6b6684;        /* muted purple-grey */
   --violet: #6d28d9;       /* primary purple */
@@ -27,7 +27,7 @@
   --violet-light: #a78bfa;
   --line: rgba(124, 58, 237, 0.16);
   --line-strong: rgba(124, 58, 237, 0.32);
-  --card-stroke: rgba(33, 28, 58, 0.82);  /* dark outer stroke on cards */
+  --card-stroke: rgba(70, 53, 89, 0.82);  /* dark outer stroke on cards */
   --glass: rgba(255, 255, 255, 0.72);
   --glass-solid: #ffffff;
   --shadow: 0 6px 24px rgba(91, 33, 182, 0.10);
@@ -266,6 +266,11 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.card .deploy {
+  color: var(--muted);
+  font-size: 0.8rem;
+  margin-top: 2px;
+}
 
 .badge {
   font-size: 0.68rem;
@@ -308,7 +313,7 @@ body {
   bottom: calc(24px + env(safe-area-inset-bottom));
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(33, 28, 58, 0.95);
+  background: rgba(70, 53, 89, 0.95);
   color: #fff;
   border-radius: 12px;
   padding: 12px 20px;
@@ -333,7 +338,7 @@ dialog {
   width: 90vw;
   box-shadow: var(--shadow-lg);
 }
-dialog::backdrop { background: rgba(33, 28, 58, 0.45); -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); }
+dialog::backdrop { background: rgba(70, 53, 89, 0.45); -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); }
 #key-form { display: flex; flex-direction: column; gap: 14px; }
 #key-form h2 { font-size: 1.2rem; color: var(--ink); }
 #key-form p { color: var(--muted); font-size: 0.85rem; line-height: 1.4; }
