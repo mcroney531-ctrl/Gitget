@@ -19,7 +19,7 @@
 * { box-sizing: border-box; margin: 0; }
 
 :root {
-  --ink: #e11d48;          /* TEST: red primary text (auto-deploy check) */
+  --ink: #211c3a;          /* deep navy — primary text / "Git" */
   --ink-soft: #3a3357;
   --muted: #6b6684;        /* muted purple-grey */
   --violet: #6d28d9;       /* primary purple */
