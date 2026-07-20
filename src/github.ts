@@ -27,6 +27,7 @@ interface GhRepo {
   owner: { login: string };
   has_pages: boolean;
   fork: boolean;
+  pushed_at: string;
 }
 
 interface GhPages {
@@ -106,4 +107,57 @@ export async function syncRepos(env: Env): Promise<SyncResult> {
   }
 
   return { scanned, pages_repos: withPages.length, synced, errors };
+}
+
+export interface CheckResult {
+  /** true when GitHub has Pages activity newer than what's stored */
+  changes: boolean;
+  /** short human-readable list of what looks out of date (capped) */
+  reasons: string[];
+  pages_repos: number;
+}
+
+/**
+ * Cheap, read-only "is there anything to sync?" check. Only lists repos
+ * (no per-repo Pages/build calls) and compares each Pages repo's push time
+ * to the last deploy we have stored. Never writes to the DB.
+ */
+export async function checkSync(env: Env): Promise<CheckResult> {
+  if (!env.GITHUB_PAT) {
+    throw new ApiError(500, "GITHUB_PAT secret is not configured");
+  }
+
+  const withPages: GhRepo[] = [];
+  for (let page = 1; page <= 10; page++) {
+    const res = await ghFetch(env, `/user/repos?per_page=100&page=${page}&sort=pushed`);
+    if (!res.ok) {
+      throw new ApiError(502, `GitHub /user/repos failed: ${res.status}`);
+    }
+    const batch = (await res.json()) as GhRepo[];
+    withPages.push(...batch.filter((r) => r.has_pages));
+    if (batch.length < 100) break;
+  }
+
+  const { results: stored } = await env.DB.prepare(
+    `SELECT name, last_deploy FROM repos`
+  ).all<{ name: string; last_deploy: string | null }>();
+  const known = new Map(stored.map((r) => [r.name.toLowerCase(), r.last_deploy]));
+
+  const ms = (s: string | null): number => {
+    if (!s) return 0;
+    const t = Date.parse(s.includes("T") ? s : s.replace(" ", "T") + "Z");
+    return Number.isFinite(t) ? t : 0;
+  };
+
+  const reasons: string[] = [];
+  for (const r of withPages) {
+    const key = r.name.toLowerCase();
+    if (!known.has(key)) {
+      reasons.push(`${r.name} (new)`);
+    } else if (ms(r.pushed_at) > ms(known.get(key) ?? null)) {
+      reasons.push(`${r.name} (updated)`);
+    }
+  }
+
+  return { changes: reasons.length > 0, reasons: reasons.slice(0, 25), pages_repos: withPages.length };
 }

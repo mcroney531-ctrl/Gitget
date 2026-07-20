@@ -1,4 +1,4 @@
-const CACHE = "gitget-v3";
+const CACHE = "gitget-v4";
 const SHELL = [
   "/",
   "/index.html",
@@ -37,6 +37,7 @@ self.addEventListener("fetch", (e) => {
     url.pathname === "/repos" ||
     url.pathname.startsWith("/repos/") ||
     url.pathname === "/sync" ||
+    url.pathname === "/check" ||
     url.pathname === "/mcp" ||
     url.pathname === "/health"
   ) {

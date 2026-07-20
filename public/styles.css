@@ -117,7 +117,26 @@ body {
   transition: transform 0.08s ease, box-shadow 0.15s ease, opacity 0.15s ease;
 }
 #sync-btn:active { transform: scale(0.96); }
-#sync-btn.busy { opacity: 0.65; pointer-events: none; }
+#sync-btn.busy { opacity: 0.65; pointer-events: none; animation: none; }
+
+/* Pulsing glow when GitHub has material to sync */
+@keyframes sync-pulse {
+  0%, 100% { box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35); }
+  50% {
+    box-shadow:
+      0 4px 16px rgba(124, 58, 237, 0.55),
+      0 0 0 6px rgba(124, 58, 237, 0.18),
+      0 0 22px rgba(124, 58, 237, 0.6);
+  }
+}
+#sync-btn.pulse { animation: sync-pulse 1.5s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  #sync-btn.pulse {
+    animation: none;
+    box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.25), 0 4px 16px rgba(124, 58, 237, 0.55);
+  }
+}
 
 /* ---------- Toolbar ---------- */
 

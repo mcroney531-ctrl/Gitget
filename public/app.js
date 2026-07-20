@@ -166,8 +166,21 @@ async function load() {
     const data = await api("/repos");
     repos = data.repos;
     render();
+    checkSyncable();
   } catch (err) {
     if (err.message !== "unauthorized") toast(err.message);
+  }
+}
+
+// Ask the backend whether GitHub has anything newer than what's stored,
+// and pulse the Sync button when it does. Fire-and-forget; stays quiet on failure.
+async function checkSyncable() {
+  if (!getKey()) return;
+  try {
+    const data = await api("/check");
+    $("sync-btn").classList.toggle("pulse", !!data.changes);
+  } catch (_) {
+    /* ignore — don't nag if the check itself fails */
   }
 }
 
@@ -206,6 +219,7 @@ $("add-form").addEventListener("submit", async (e) => {
 
 $("sync-btn").addEventListener("click", async () => {
   const btn = $("sync-btn");
+  btn.classList.remove("pulse");
   btn.classList.add("busy");
   btn.textContent = "Syncing…";
   try {

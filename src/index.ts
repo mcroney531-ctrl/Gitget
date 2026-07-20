@@ -1,6 +1,6 @@
 import type { Env } from "./types";
 import { ApiError, deleteRepo, listRepos, upsertRepo } from "./repos";
-import { syncRepos } from "./github";
+import { checkSync, syncRepos } from "./github";
 import { QuickGitMCP } from "./mcp";
 
 export { QuickGitMCP };
@@ -67,6 +67,11 @@ async function handleApi(request: Request, env: Env, url: URL): Promise<Response
     return json(result);
   }
 
+  if (pathname === "/check" && method === "GET") {
+    const result = await checkSync(env);
+    return json(result);
+  }
+
   throw new ApiError(404, "not found");
 }
 
@@ -81,7 +86,8 @@ export default {
     const isApi =
       url.pathname === "/repos" ||
       url.pathname.startsWith("/repos/") ||
-      url.pathname === "/sync";
+      url.pathname === "/sync" ||
+      url.pathname === "/check";
     const isMcp = url.pathname === "/mcp" || url.pathname === "/sse" || url.pathname.startsWith("/sse/");
 
     if (isApi || isMcp) {
