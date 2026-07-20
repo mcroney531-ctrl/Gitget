@@ -120,7 +120,11 @@ export interface CheckResult {
 /**
  * Cheap, read-only "is there anything to sync?" check. Only lists repos
  * (no per-repo Pages/build calls) and compares each Pages repo's push time
- * to the last deploy we have stored. Never writes to the DB.
+ * to when we last synced it (updated_at). Never writes to the DB.
+ *
+ * updated_at is set to now on every sync, and a repo's pushed_at is always
+ * <= the moment we synced it, so right after a sync nothing looks stale —
+ * only a push that lands *after* the last sync flags as syncable.
  */
 export async function checkSync(env: Env): Promise<CheckResult> {
   if (!env.GITHUB_PAT) {
@@ -139,22 +143,23 @@ export async function checkSync(env: Env): Promise<CheckResult> {
   }
 
   const { results: stored } = await env.DB.prepare(
-    `SELECT name, last_deploy FROM repos`
-  ).all<{ name: string; last_deploy: string | null }>();
-  const known = new Map(stored.map((r) => [r.name.toLowerCase(), r.last_deploy]));
+    `SELECT name, updated_at FROM repos`
+  ).all<{ name: string; updated_at: string | null }>();
+  const syncedAt = new Map(stored.map((r) => [r.name.toLowerCase(), r.updated_at]));
 
   const ms = (s: string | null): number => {
     if (!s) return 0;
     const t = Date.parse(s.includes("T") ? s : s.replace(" ", "T") + "Z");
     return Number.isFinite(t) ? t : 0;
   };
+  const SKEW = 10_000; // ms tolerance so GitHub/Cloudflare clock drift can't false-flag
 
   const reasons: string[] = [];
   for (const r of withPages) {
     const key = r.name.toLowerCase();
-    if (!known.has(key)) {
+    if (!syncedAt.has(key)) {
       reasons.push(`${r.name} (new)`);
-    } else if (ms(r.pushed_at) > ms(known.get(key) ?? null)) {
+    } else if (ms(r.pushed_at) > ms(syncedAt.get(key) ?? null) + SKEW) {
       reasons.push(`${r.name} (updated)`);
     }
   }

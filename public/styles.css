@@ -121,8 +121,12 @@ body {
 
 /* Pulsing glow when GitHub has material to sync */
 @keyframes sync-pulse {
-  0%, 100% { box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35); }
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35);
+  }
   50% {
+    transform: scale(1.07);
     box-shadow:
       0 4px 16px rgba(124, 58, 237, 0.55),
       0 0 0 6px rgba(124, 58, 237, 0.18),
