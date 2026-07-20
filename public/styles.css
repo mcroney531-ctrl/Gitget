@@ -27,6 +27,7 @@
   --violet-light: #a78bfa;
   --line: rgba(124, 58, 237, 0.16);
   --line-strong: rgba(124, 58, 237, 0.32);
+  --card-stroke: rgba(33, 28, 58, 0.82);  /* dark outer stroke on cards */
   --glass: rgba(255, 255, 255, 0.72);
   --glass-solid: #ffffff;
   --shadow: 0 6px 24px rgba(91, 33, 182, 0.10);
@@ -141,6 +142,31 @@ body {
   box-shadow: var(--shadow), 0 0 0 3px rgba(124, 58, 237, 0.15);
 }
 
+#sort {
+  flex-shrink: 0;
+  max-width: 38vw;
+  background: var(--glass) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c3aed' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 10px center;
+  background-size: 12px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  color: var(--violet);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0 30px 0 13px;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+#sort:focus {
+  outline: none;
+  border-color: var(--line-strong);
+  box-shadow: var(--shadow), 0 0 0 3px rgba(124, 58, 237, 0.15);
+}
+
 #add-toggle {
   width: 48px;
   flex-shrink: 0;
@@ -206,7 +232,7 @@ body {
   align-items: center;
   gap: 12px;
   background: var(--glass);
-  border: 1px solid var(--line);
+  border: 1.5px solid var(--card-stroke);
   border-radius: 16px;
   padding: 15px 16px;
   margin-bottom: 10px;
@@ -220,7 +246,7 @@ body {
 .card:active {
   transform: scale(0.99);
   box-shadow: var(--shadow-lg);
-  border-color: var(--line-strong);
+  border-color: var(--ink);
 }
 
 .card .info { flex: 1; min-width: 0; }

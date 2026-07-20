@@ -63,9 +63,26 @@ function badge(status) {
   return ["none", "no status"];
 }
 
+function timeOf(r) {
+  const d = r.last_deploy || r.updated_at || r.added_at;
+  if (!d) return 0;
+  const t = new Date(d.includes("T") ? d : d.replace(" ", "T") + "Z").getTime();
+  return Number.isFinite(t) ? t : 0;
+}
+
+function sortRepos(arr) {
+  const mode = $("sort").value;
+  const out = [...arr];
+  if (mode === "az") out.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
+  else if (mode === "za") out.sort((a, b) => b.name.localeCompare(a.name, undefined, { sensitivity: "base" }));
+  else if (mode === "oldest") out.sort((a, b) => timeOf(a) - timeOf(b));
+  else out.sort((a, b) => timeOf(b) - timeOf(a)); // recent (default)
+  return out;
+}
+
 function render() {
   const q = $("search").value.trim().toLowerCase();
-  const shown = q
+  const filtered = q
     ? repos.filter(
         (r) =>
           r.name.toLowerCase().includes(q) ||
@@ -73,6 +90,7 @@ function render() {
           (r.live_url || "").toLowerCase().includes(q)
       )
     : repos;
+  const shown = sortRepos(filtered);
 
   list.innerHTML = "";
   emptyEl.classList.toggle("hidden", shown.length > 0);
@@ -149,6 +167,12 @@ async function load() {
 }
 
 $("search").addEventListener("input", render);
+
+$("sort").value = localStorage.getItem("gitget_sort") || "recent";
+$("sort").addEventListener("change", () => {
+  localStorage.setItem("gitget_sort", $("sort").value);
+  render();
+});
 
 $("add-toggle").addEventListener("click", () => {
   $("add-form").classList.toggle("hidden");
