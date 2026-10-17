@@ -27,6 +27,14 @@ npm run deploy
 
 Open the deployed URL on your phone, enter the API key when prompted (stored in localStorage), and "Add to Home Screen".
 
+## Rotating the GitHub token
+
+Fine-grained PATs expire. After regenerating it on GitHub, the Worker keeps using the old value until you update the secret. The easiest route is the Cloudflare dashboard (no CLI, works from any device, nothing for antivirus to flag):
+
+**Compute (Workers) → quickgit → Settings → Variables and Secrets → `GITHUB_PAT` → Edit** → paste the new token → save.
+
+It applies to the live Worker immediately; no redeploy or code change. Then tap **Sync** in the app to confirm. (CLI alternative: `npx wrangler secret put GITHUB_PAT --name quickgit`. Wrangler does not run on Android/Termux.)
+
 ## Hook up the MCP server
 
 ```sh
